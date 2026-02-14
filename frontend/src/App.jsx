@@ -40,8 +40,11 @@ function App() {
 
   const moveNoButton = () => {
     setNoHasMoved(true);
-    const x = Math.random() * (window.innerWidth - 200) - window.innerWidth / 2 + 100;
-    const y = Math.random() * (window.innerHeight - 200) - window.innerHeight / 2 + 100;
+    // Use safe bounds so button stays visible on all screen sizes
+    const maxX = window.innerWidth - 160;
+    const maxY = window.innerHeight - 60;
+    const x = Math.random() * maxX - maxX / 2;
+    const y = Math.random() * maxY - maxY / 2;
     setNoBtnPosition({ x, y });
 
     // Cycle through button texts
@@ -57,11 +60,7 @@ function App() {
 
   const toggleMute = () => {
     if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.muted = false;
-      } else {
-        audioRef.current.muted = true;
-      }
+      audioRef.current.muted = !isMuted;
     }
     setIsMuted(!isMuted);
   };
@@ -90,23 +89,23 @@ function App() {
       style={{ fontFamily: "'Playfair Display', serif" }}>
 
       {/* Top Right Buttons */}
-      <div className="absolute top-4 right-4 z-50 flex items-center gap-3">
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 flex items-center gap-2 sm:gap-3">
         {yesPressed && (
           <motion.button
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             onClick={toggleMute}
-            className="w-11 h-11 flex items-center justify-center bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-200 text-slate-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
+            className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-200 text-slate-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
             title={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                 <line x1="23" y1="9" x2="17" y2="15" />
                 <line x1="17" y1="9" x2="23" y2="15" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
                 <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
@@ -120,10 +119,10 @@ function App() {
           animate={{ scale: 1 }}
           transition={{ delay: 0.3 }}
           onClick={handleShare}
-          className="w-11 h-11 flex items-center justify-center bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-200 text-slate-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
+          className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-200 text-slate-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
           title="Share"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="18" cy="5" r="3" />
             <circle cx="6" cy="12" r="3" />
             <circle cx="18" cy="19" r="3" />
@@ -155,7 +154,7 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-3 sm:px-4">
         <AnimatePresence mode="wait">
           {yesPressed ? (
             <motion.div
@@ -163,20 +162,20 @@ function App() {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="text-center bg-white/90 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] p-6 max-w-lg w-full"
+              className="text-center bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] p-4 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                 <img
                   src="https://media.tenor.com/kHcmsxlKHEAAAAAM/hehe-hehehe.gif"
                   alt="hehe"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover"
                 />
-                <h2 className="text-2xl font-bold text-slate-800">Great! Now fill this out 😏</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-800">Great! Now fill this out 😏</h2>
               </div>
               <img
                 src="/job-application.jpg"
                 alt="Job Application Form"
-                className="w-full rounded-xl shadow-md border border-slate-200"
+                className="w-full rounded-lg sm:rounded-xl shadow-md border border-slate-200"
               />
             </motion.div>
           ) : (
@@ -185,32 +184,32 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="bg-white/85 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-white/60 text-center max-w-md w-full relative px-10 pt-16 pb-10"
+              className="bg-white/85 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-white/60 text-center max-w-md w-full relative px-6 sm:px-10 pt-14 sm:pt-16 pb-8 sm:pb-10 mx-2"
             >
               {/* Top Heart Icon */}
-              <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
-                <div className="bg-white p-5 rounded-full shadow-xl heart-waves border border-rose-100">
-                  <div className="premium-heart text-4xl leading-none">
+              <div className="absolute -top-8 sm:-top-10 left-1/2 transform -translate-x-1/2">
+                <div className="bg-white p-4 sm:p-5 rounded-full shadow-xl heart-waves border border-rose-100">
+                  <div className="premium-heart text-3xl sm:text-4xl leading-none">
                     ❤️
                   </div>
                 </div>
               </div>
 
-              <h1 className="text-4xl font-bold text-slate-800 mb-2 leading-snug">
+              <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-2 leading-snug">
                 Will you be my<br />Valentine?
               </h1>
 
-              <p className="text-slate-400 text-base mb-8 font-medium italic">
+              <p className="text-slate-400 text-sm sm:text-base mb-6 sm:mb-8 font-medium italic">
                 Pleaseeeeee !!!!
               </p>
 
               {/* Buttons */}
-              <div className="flex flex-row items-center justify-center gap-4">
+              <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
                 <motion.button
                   whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleYes}
-                  className="shadow-[0_0_0_3px_#e11d48_inset] px-8 py-3 bg-white border border-rose-500 text-rose-600 rounded-lg font-bold transition duration-200 text-lg cursor-pointer"
+                  className="shadow-[0_0_0_3px_#e11d48_inset] px-5 sm:px-8 py-2.5 sm:py-3 bg-white border border-rose-500 text-rose-600 rounded-lg font-bold transition duration-200 text-base sm:text-lg cursor-pointer"
                 >
                   YESSSS! 💖
                 </motion.button>
@@ -221,14 +220,14 @@ function App() {
                   transition={{ type: "tween", duration: 0.15, ease: "easeOut" }}
                   onHoverStart={moveNoButton}
                   onClick={moveNoButton}
-                  className="shadow-[0_0_0_3px_#94a3b8_inset] px-8 py-3 bg-white border border-slate-300 text-slate-500 rounded-lg font-bold text-lg whitespace-nowrap cursor-pointer z-50"
+                  className="shadow-[0_0_0_3px_#94a3b8_inset] px-5 sm:px-8 py-2.5 sm:py-3 bg-white border border-slate-300 text-slate-500 rounded-lg font-bold text-base sm:text-lg whitespace-nowrap cursor-pointer z-50"
                 >
                   {noButtonTexts[noTextIndex]}
                 </motion.button>
               </div>
 
-              <div className="mt-10 pt-5 border-t border-slate-100">
-                <p className="text-xs text-slate-400 font-medium tracking-widest uppercase">
+              <div className="mt-8 sm:mt-10 pt-4 sm:pt-5 border-t border-slate-100">
+                <p className="text-[10px] sm:text-xs text-slate-400 font-medium tracking-widest uppercase">
                   Made with 🩷 for you
                 </p>
               </div>
