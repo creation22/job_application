@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 
 const noButtonTexts = [
@@ -235,6 +236,7 @@ function App() {
           )}
         </AnimatePresence>
       </div>
+      <Analytics />
     </div>
   )
 }
